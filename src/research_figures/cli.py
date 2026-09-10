@@ -67,6 +67,13 @@ def doctor(json_output: bool = typer.Option(False, "--json")):
         skill_status_value = "PASS"
     except json.JSONDecodeError:
         skill_status_value = "FAIL"
+    try:
+        fm.findfont("DejaVu Sans", fallback_to_default=False)
+        font_status = "PASS"
+        font_message = "font resolution"
+    except ValueError:
+        font_status = "WARN"
+        font_message = "preferred font unavailable; Matplotlib fallback will be used"
     results = [
         {
             "id": "RF-RESOURCE-001",
@@ -85,8 +92,8 @@ def doctor(json_output: bool = typer.Option(False, "--json")):
         },
         {
             "id": "RF-FONT-001",
-            "status": "PASS" if fm.findfont("DejaVu Sans", fallback_to_default=False) else "WARN",
-            "message": "font resolution",
+            "status": font_status,
+            "message": font_message,
         },
     ]
     results += [
