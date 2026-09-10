@@ -1,2 +1,0 @@
-[console_scripts]
-rfig = research_figures.cli:main
