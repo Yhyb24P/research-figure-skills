@@ -3,6 +3,25 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "research-figure-skills"
-version = "0.1.0"
-requires-python = ">=3.10"
-dependencies = ["matplotlib", "numpy", "pandas", "PyYAML", "jsonschema", "Pillow", "PyMuPDF", "lxml", "networkx"]
+version = "2.0.0"
+requires-python = ">=3.11"
+dependencies = ["matplotlib", "numpy", "pandas", "PyYAML", "pydantic>=2", "jsonschema", "Pillow", "PyMuPDF", "lxml", "networkx", "typer", "rich"]
+
+[project.scripts]
+rfig = "research_figures.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/v2"]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

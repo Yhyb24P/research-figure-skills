@@ -1,0 +1,35 @@
+{
+  "artifact": "/home/yhshy/git_files/CUMCM2026-A/research-figure-skills/examples/v2/outputs/Fig1/Fig1.pdf",
+  "checks": [
+    {
+      "status": "PASS",
+      "message": "PDF page count"
+    },
+    {
+      "status": "PASS",
+      "message": "PDF text objects"
+    },
+    {
+      "status": "PASS",
+      "message": "PDF fonts"
+    },
+    {
+      "status": "PASS",
+      "message": "minimum font"
+    },
+    {
+      "status": "PASS",
+      "message": "physical page size"
+    },
+    {
+      "status": "PASS",
+      "message": "non-color encoding"
+    },
+    {
+      "status": "PASS",
+      "message": "provenance"
+    }
+  ],
+  "overall": "TECHNICAL_PASS",
+  "manual_notice": "Automated checks do not certify editorial acceptance or scientific validity; re-check current journal instructions before upload."
+}

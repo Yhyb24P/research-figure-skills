@@ -1,0 +1,10 @@
+contract_sha256: bbd965ecccd57363c8a03a44715e83a40fbe6eefb06e084fba381ffd345d5729
+sources:
+- id: metrics
+  type: source
+  path: metrics.csv
+  sha256: 1281049eec73109a2542b17b247b0ded3d7ace5201daaec7c6c229bc1971ef8b
+renderer_version: 2.0.0
+python: 3.13.14
+generated_at: '2026-09-10T21:07:36.283468+00:00'
+profile_id: nature.flagship.main.final.v2026-09-11

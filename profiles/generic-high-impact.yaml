@@ -1,0 +1,7 @@
+profile_id: generic.high_impact.v2026-09-11
+publisher: generic
+journal: generic
+scope: {article_type: null, submission_phase: final, artifact_class: data_visualization}
+verification: {status: UNVERIFIED, last_verified: '2026-09-11', stale_after_days: 180}
+rules: [{rule_id: GENERIC-AXIS-001, property: axes.units, operator: require, value: true, severity: REQUIRED, source_id: GENERIC-GUIDANCE}]
+ai_policy: {data_visualization: {generative_image: BLOCKED}}

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["schema_version","graph_id","nodes","edges"],"properties":{"schema_version":{"type":"string"},"graph_id":{"type":"string"},"nodes":{"type":"array"},"edges":{"type":"array"}}}

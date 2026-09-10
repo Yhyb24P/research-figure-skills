@@ -1,0 +1,23 @@
+{
+  "artifact": "examples/v2/outputs/Fig1/Fig1.png",
+  "checks": [
+    {
+      "status": "FAIL",
+      "message": "effective DPI 450"
+    },
+    {
+      "status": "PASS",
+      "message": "raster color mode"
+    },
+    {
+      "status": "PASS",
+      "message": "non-color encoding"
+    },
+    {
+      "status": "PASS",
+      "message": "provenance"
+    }
+  ],
+  "overall": "INCOMPLETE",
+  "manual_notice": "Automated checks do not certify editorial acceptance or scientific validity; re-check current journal instructions before upload."
+}

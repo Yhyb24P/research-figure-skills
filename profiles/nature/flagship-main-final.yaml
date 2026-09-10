@@ -1,0 +1,9 @@
+profile_id: nature.flagship.main.final.v2026-09-11
+publisher: springer_nature
+journal: nature
+scope: {article_type: primary_research, submission_phase: final, artifact_class: data_visualization}
+verification: {status: VERIFIED, last_verified: '2026-09-11', stale_after_days: 90}
+rules:
+  - {rule_id: NATURE-MAIN-WIDTH-001, property: export.width_mm, operator: in, value: [89, 183], severity: REQUIRED, source_id: NATURE-BUILD}
+  - {rule_id: NATURE-MAIN-HEIGHT-001, property: export.height_mm, operator: lte, value: 170, severity: REQUIRED, source_id: NATURE-BUILD}
+ai_policy: {data_visualization: {generative_image: FORBID, deterministic_plot: ALLOW}, primary_research_image: {generative_image: FORBID}}

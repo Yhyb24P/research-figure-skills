@@ -1,0 +1,12 @@
+matplotlib
+numpy
+pandas
+PyYAML
+pydantic>=2
+jsonschema
+Pillow
+PyMuPDF
+lxml
+networkx
+typer
+rich

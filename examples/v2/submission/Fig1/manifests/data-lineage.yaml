@@ -1,0 +1,8 @@
+nodes:
+- id: metrics
+  type: source
+  path: metrics.csv
+  sha256: 1281049eec73109a2542b17b247b0ded3d7ace5201daaec7c6c229bc1971ef8b
+transformations: []
+panel_sources:
+  a: metrics

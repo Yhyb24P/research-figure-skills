@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: research-figure-skills
+Version: 2.0.0
+Requires-Python: >=3.11
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: PyYAML
+Requires-Dist: pydantic>=2
+Requires-Dist: jsonschema
+Requires-Dist: Pillow
+Requires-Dist: PyMuPDF
+Requires-Dist: lxml
+Requires-Dist: networkx
+Requires-Dist: typer
+Requires-Dist: rich

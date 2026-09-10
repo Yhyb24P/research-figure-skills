@@ -1,0 +1,21 @@
+schema_version: '2.0'
+figure_id: Fig1
+claim: {statement: Model A has higher PCC in this synthetic fixture., scope: result, evidence_panel_ids: [a]}
+journal_context: {publisher: springer_nature, journal: nature, article_type: primary_research, submission_phase: final}
+artifact_class: data_visualization
+sources: [{source_id: metrics, kind: csv, path: metrics.csv, scientific_role: primary}]
+transformations: []
+statistics: {units: {experimental_unit: synthetic_fixture}, uncertainty: {}}
+panels:
+  - id: a
+    purpose: Compare declared PCC values.
+    plot: {type: line, source: metrics, x: environment, y: pcc, group: model}
+    axes: {x_label: Environment, y_label: PCC}
+    encoding: {color: model, marker: model}
+    legend: {show: true}
+layout: {preset: single_column}
+accessibility: {redundant_group_encoding: true}
+ai_usage: [{stage: rendering, capability: deterministic_plot, tool: matplotlib, affects_pixels: true, affects_data: false}]
+assets: []
+export: {formats: [pdf, svg, png], output_dir: outputs/Fig1, width_mm: 89, height_mm: 65, dpi: 450}
+provenance: {require_git_state: true}

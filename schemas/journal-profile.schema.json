@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["profile_id","publisher","journal","scope","rules"],"properties":{"profile_id":{"type":"string"},"publisher":{"type":"string"},"journal":{"type":"string"},"scope":{"type":"object"},"rules":{"type":"array"}}}

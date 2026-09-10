@@ -1,0 +1,8 @@
+schema_version: '2.0'
+graph_id: evidence-flow
+nodes:
+  - {id: data, label: Source data, semantic: true, kind: data, evidence: [{source: metrics.csv, locator: header}]}
+  - {id: plot, label: Deterministic plot, semantic: true, kind: software, evidence: [{source: ../../src/research_figures/core.py, locator: render}]}
+  - {id: group, label: Container, semantic: false, kind: container, evidence: []}
+edges:
+  - {source: data, target: plot, relation: renders_to, semantic: true, evidence: [{source: figure.contract.yaml, locator: panels}]}

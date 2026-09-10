@@ -1,0 +1,6 @@
+ai_usage:
+- stage: rendering
+  capability: deterministic_plot
+  tool: matplotlib
+  affects_pixels: true
+  affects_data: false
