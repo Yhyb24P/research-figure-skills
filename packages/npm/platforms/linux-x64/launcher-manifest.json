@@ -1,7 +1,7 @@
 {
   "build_platform": "linux-x86_64",
   "entry_point": "research_figures.cli:main",
-  "git_commit": "b63e20c32f4d61fdfb8938eae8c56eabc61aa27b",
+  "git_commit": "923d774acb915bdb3f4402b5d7cff80a3582137b",
   "project_source": "embedded local wheel via PYAPP_PROJECT_PATH",
   "pyapp_version": "0.29.0",
   "python_distribution": "CPython 3.12 (PyApp managed)",
