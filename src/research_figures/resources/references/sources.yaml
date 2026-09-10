@@ -1,0 +1,6 @@
+sources:
+  - {source_id: NATURE-BUILD, publisher: springer_nature, journal: nature, url: https://research-figure-guide.nature.com/figures/building-and-exporting-figure-panels/, accessed_at: '2026-09-11', source_tier: TIER_1}
+  - {source_id: NATURE-INTEGRITY, publisher: springer_nature, journal: nature, url: https://research-figure-guide.nature.com/figures/image-integrity/, accessed_at: '2026-09-11', source_tier: TIER_1}
+  - {source_id: SCIENCE-INITIAL, publisher: aaas, journal: science, url: https://www.science.org/content/page/instructions-preparing-initial-manuscript, accessed_at: '2026-09-11', source_tier: TIER_1}
+  - {source_id: SCIENCE-REVISED, publisher: aaas, journal: science, url: https://www.science.org/content/page/instructions-preparing-revised-manuscript, accessed_at: '2026-09-11', source_tier: TIER_1}
+  - {source_id: ELSEVIER-AI, publisher: elsevier, journal: cell, url: https://www.elsevier.com/about/policies-and-standards/generative-ai-policies-for-journals, accessed_at: '2026-09-11', source_tier: TIER_2}

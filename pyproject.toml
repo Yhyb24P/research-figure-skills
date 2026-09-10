@@ -3,18 +3,30 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "research-figure-skills"
-version = "2.0.0"
+version = "2.1.0rc1"
 requires-python = ">=3.11"
+description = "Evidence-constrained, journal-aware scientific figure compiler and auditor"
+readme = "README.md"
+keywords = ["scientific figures", "reproducibility", "preflight", "journal policy"]
+classifiers = ["Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Topic :: Scientific/Engineering"]
 dependencies = ["matplotlib", "numpy", "pandas", "PyYAML", "pydantic>=2", "jsonschema", "Pillow", "PyMuPDF", "lxml", "networkx", "typer", "rich"]
 
 [project.scripts]
 rfig = "research_figures.cli:main"
+research-figure = "research_figures.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Yhyb24P/research-figure-skills"
+Issues = "https://github.com/Yhyb24P/research-figure-skills/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+research_figures = ["resources/**/*.yaml", "resources/**/*.json", "resources/**/*.md", "resources/**/*.csv"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests/v2"]
@@ -25,3 +37,4 @@ dev = ["pytest", "ruff"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+exclude = ["nature-figure", "scientific-schematic", "figure-preflight", "shared", "tests", "research_figure_skills_v2_topjournal_delivery", "research_figure_skills_v2_1_productization_delivery"]

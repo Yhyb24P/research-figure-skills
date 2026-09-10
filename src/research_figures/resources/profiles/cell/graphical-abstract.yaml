@@ -1,0 +1,7 @@
+profile_id: cell.graphical_abstract.v2026-09-11
+publisher: elsevier
+journal: cell
+scope: {article_type: primary_research, submission_phase: final, artifact_class: graphical_abstract}
+verification: {status: PROVISIONAL, last_verified: '2026-09-11', stale_after_days: 30}
+rules: [{rule_id: CELL-GA-AI-001, property: ai.capability.generative_image, operator: forbid, value: true, severity: FORBIDDEN, source_id: ELSEVIER-AI}]
+ai_policy: {graphical_abstract: {generative_image: FORBID, licensed_asset_library: ALLOW_WITH_DISCLOSURE}}

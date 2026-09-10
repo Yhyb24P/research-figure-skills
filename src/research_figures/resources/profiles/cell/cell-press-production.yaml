@@ -1,0 +1,7 @@
+profile_id: cell.press.production.v2026-09-11
+publisher: elsevier
+journal: cell
+scope: {article_type: primary_research, submission_phase: final, artifact_class: data_visualization}
+verification: {status: PROVISIONAL, last_verified: '2026-09-11', stale_after_days: 90}
+rules: [{rule_id: CELL-PROD-PANEL-001, property: typography.panel_labels, operator: eq, value: {case: uppercase}, severity: REQUIRED, source_id: CELL-PRODUCTION}]
+ai_policy: {data_visualization: {deterministic_plot: ALLOW_WITH_DISCLOSURE, generative_image: UNKNOWN}, primary_research_image: {generative_image: FORBID}, explanatory_schematic: {generative_image: ALLOW_WITH_DISCLOSURE}, graphical_abstract: {generative_image: FORBID, licensed_asset_library: ALLOW_WITH_DISCLOSURE}, cover_art: {generative_image: EDITOR_APPROVAL}}

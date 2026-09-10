@@ -21,7 +21,9 @@ import pandas as pd
 import yaml
 from lxml import etree
 from PIL import Image
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+
+from .resources import iter_profiles
 
 ARTIFACTS = {
     "data_visualization",
@@ -102,7 +104,7 @@ class Claim(BaseModel):
     model_config = ConfigDict(extra="forbid")
     statement: str
     scope: str | None = None
-    evidence_panel_ids: list[str] = []
+    evidence_panel_ids: list[str] = Field(default_factory=list)
 
 
 class JournalContext(BaseModel):
@@ -132,9 +134,9 @@ class Panel(BaseModel):
     id: str
     purpose: str
     plot: Plot
-    axes: dict[str, Any] = {}
-    encoding: dict[str, Any] = {}
-    legend: dict[str, Any] = {}
+    axes: dict[str, Any] = Field(default_factory=dict)
+    encoding: dict[str, Any] = Field(default_factory=dict)
+    legend: dict[str, Any] = Field(default_factory=dict)
 
 
 class Export(BaseModel):
@@ -157,13 +159,13 @@ class FigureContract(BaseModel):
     panels: list[Panel]
     export: Export
     title: str | None = None
-    transformations: list[dict[str, Any]] = []
-    statistics: dict[str, Any] = {}
-    layout: dict[str, Any] = {}
-    accessibility: dict[str, Any] = {}
-    ai_usage: list[dict[str, Any]] = []
-    assets: list[dict[str, Any]] = []
-    provenance: dict[str, Any] = {}
+    transformations: list[dict[str, Any]] = Field(default_factory=list)
+    statistics: dict[str, Any] = Field(default_factory=dict)
+    layout: dict[str, Any] = Field(default_factory=dict)
+    accessibility: dict[str, Any] = Field(default_factory=dict)
+    ai_usage: list[dict[str, Any]] = Field(default_factory=list)
+    assets: list[dict[str, Any]] = Field(default_factory=list)
+    provenance: dict[str, Any] = Field(default_factory=dict)
 
 
 class Evidence(BaseModel):
@@ -178,7 +180,7 @@ class GraphNode(BaseModel):
     label: str
     semantic: bool
     kind: str
-    evidence: list[Evidence] = []
+    evidence: list[Evidence] = Field(default_factory=list)
 
 
 class GraphEdge(BaseModel):
@@ -187,7 +189,7 @@ class GraphEdge(BaseModel):
     target: str
     relation: str
     semantic: bool = True
-    evidence: list[Evidence] = []
+    evidence: list[Evidence] = Field(default_factory=list)
 
 
 class SemanticGraph(BaseModel):
@@ -262,8 +264,9 @@ class RuleResult:
     verification_status: str
 
 
-def profiles(root: Path) -> list[dict[str, Any]]:
-    return [load_yaml(p) for p in root.glob("profiles/**/*.yaml")]
+def profiles(root: Path | None = None) -> list[dict[str, Any]]:
+    """Return profiles bundled with the installed Python distribution."""
+    return list(iter_profiles())
 
 
 def resolve_profile(

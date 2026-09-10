@@ -1,0 +1,7 @@
+profile_id: nature.flagship.extended_data.v2026-09-11
+publisher: springer_nature
+journal: nature
+scope: {article_type: primary_research, submission_phase: final, artifact_class: extended_data}
+verification: {status: VERIFIED, last_verified: '2026-09-11', stale_after_days: 90}
+rules: [{rule_id: NATURE-EXT-AI-001, property: ai.capability.generative_image, operator: forbid, value: true, severity: FORBIDDEN, source_id: NATURE-INTEGRITY}]
+ai_policy: {extended_data: {generative_image: FORBID}}

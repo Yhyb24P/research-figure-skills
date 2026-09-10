@@ -1,0 +1,7 @@
+profile_id: science.flagship.initial.v2026-09-11
+publisher: aaas
+journal: science
+scope: {article_type: primary_research, submission_phase: initial, artifact_class: data_visualization}
+verification: {status: PROVISIONAL, last_verified: '2026-09-11', stale_after_days: 30}
+rules: [{rule_id: SCIENCE-INITIAL-FORMAT-001, property: export.formats, operator: manual, value: embedded_review, severity: MANUAL_CHECK, source_id: SCIENCE-INITIAL}]
+ai_policy: {data_visualization: {generative_image: UNKNOWN}}
