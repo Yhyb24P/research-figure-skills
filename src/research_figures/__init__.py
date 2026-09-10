@@ -1,3 +1,3 @@
-"""Research Figures V2: an evidence-bound, journal-profiled figure compiler."""
+"""Research Figure: an evidence-bound, journal-profiled figure compiler."""
 
-__version__ = "2.0.0"
+from ._version import __version__ as __version__

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Research Figure contract",
+  "type": "object",
+  "required": ["schema_version", "figure_id", "claim", "journal_context", "artifact_class", "sources", "panels", "export"],
+  "additionalProperties": true
+}

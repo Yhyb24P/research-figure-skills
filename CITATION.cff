@@ -1,0 +1,6 @@
+cff-version: 1.2.0
+message: "If you use Research Figure, cite the software release used."
+title: "Research Figure"
+version: "2.1.0rc1"
+repository-code: "https://github.com/Yhyb24P/research-figure-skills"
+date-released: "2026-09-11"

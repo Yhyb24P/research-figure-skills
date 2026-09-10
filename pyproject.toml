@@ -9,7 +9,7 @@ description = "Evidence-constrained, journal-aware scientific figure compiler an
 readme = "README.md"
 keywords = ["scientific figures", "reproducibility", "preflight", "journal policy"]
 classifiers = ["Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Topic :: Scientific/Engineering"]
-dependencies = ["matplotlib", "numpy", "pandas", "PyYAML", "pydantic>=2", "jsonschema", "Pillow", "PyMuPDF", "lxml", "networkx", "typer", "rich"]
+dependencies = ["matplotlib", "numpy", "pandas", "PyYAML", "pydantic>=2", "jsonschema", "Pillow", "PyMuPDF", "lxml", "networkx", "typer", "rich", "platformdirs"]
 
 [project.scripts]
 rfig = "research_figures.cli:main"
@@ -26,7 +26,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-research_figures = ["resources/**/*.yaml", "resources/**/*.json", "resources/**/*.md", "resources/**/*.csv"]
+research_figures = ["resources/**/*.yaml", "resources/**/*.json", "resources/**/*.md", "resources/**/*.csv", "resources/**/*.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests/v2"]

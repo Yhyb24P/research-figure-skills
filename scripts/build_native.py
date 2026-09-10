@@ -16,20 +16,19 @@ import os
 import platform
 import shutil
 import subprocess
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.1.0rc1"
 PYAPP_VERSION = "0.29.0"
-WHEEL_NAME = f"research_figure_skills-{VERSION}-py3-none-any.whl"
+
+
+def release_version() -> str:
+    return tomllib.loads((ROOT / "release.toml").read_text())["release"]["python_version"]
 
 
 def pyapp_manifest() -> Path:
-    candidates = sorted(
-        Path.home().glob(
-            f".cargo/registry/src/*/pyapp-{PYAPP_VERSION}/Cargo.toml"
-        )
-    )
+    candidates = sorted(Path.home().glob(f".cargo/registry/src/*/pyapp-{PYAPP_VERSION}/Cargo.toml"))
     if len(candidates) != 1:
         raise SystemExit(
             "PyApp 0.29.0 source is required exactly once in Cargo's local "
@@ -42,10 +41,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--platform", default="linux-x64")
     args = parser.parse_args()
-    if args.platform != "linux-x64" or platform.system() != "Linux" or platform.machine() != "x86_64":
+    if (
+        args.platform != "linux-x64"
+        or platform.system() != "Linux"
+        or platform.machine() != "x86_64"
+    ):
         raise SystemExit("this builder currently supports only native Linux x64")
 
-    wheel = ROOT / "dist" / WHEEL_NAME
+    version = release_version()
+    wheel = ROOT / "dist" / f"research_figure_skills-{version}-py3-none-any.whl"
     if not wheel.is_file():
         raise SystemExit(f"release wheel is missing: {wheel}; run `uv build --no-sources` first")
 
@@ -73,11 +77,13 @@ def main() -> None:
     output.chmod(0o755)
 
     manifest = {
-        "release_version": VERSION,
+        "release_version": version,
         "python_distribution": "CPython 3.12 (PyApp managed)",
         "wheel_filename": wheel.name,
         "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(),
-        "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "git_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip(),
         "build_platform": f"{platform.system().lower()}-{platform.machine()}",
         "pyapp_version": PYAPP_VERSION,
         "project_source": "embedded local wheel via PYAPP_PROJECT_PATH",

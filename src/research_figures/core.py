@@ -23,6 +23,7 @@ from lxml import etree
 from PIL import Image
 from pydantic import BaseModel, ConfigDict, Field
 
+from ._version import __version__
 from .resources import iter_profiles
 
 ARTIFACTS = {
@@ -388,58 +389,58 @@ def render(contract_path: Path, root: Path) -> Path:
         figsize=(contract.export.width_mm / 25.4, contract.export.height_mm / 25.4),
         squeeze=False,
     )
-    plt.rcParams.update(
+    with matplotlib.rc_context(
         {"font.size": 6, "font.family": "DejaVu Sans", "pdf.fonttype": 42, "svg.fonttype": "none"}
-    )
-    for ax, panel in zip(axes.ravel(), contract.panels):
-        data = _data(contract, base, panel.plot.source)
-        x, y = panel.plot.x, panel.plot.y
-        if not x or not y or x not in data or y not in data:
-            raise RfigError("panel variable missing")
-        if data[[x, y]].isna().any().any():
-            raise RfigError("missing values require an explicit declared transformation")
-        groups = (
-            [(None, data)]
-            if not panel.plot.group
-            else list(data.groupby(panel.plot.group, sort=False))
-        )
-        for i, (name, frame) in enumerate(groups):
-            kw = {
-                "label": str(name) if name is not None else None,
-                "marker": ["o", "s", "^"][i % 3],
-            }
-            if panel.plot.type in {"line", "roc", "pr", "calibration"}:
-                ax.plot(frame[x], frame[y], lw=1, ms=3, **kw)
-            elif panel.plot.type == "ecdf":
-                values = frame[y].sort_values().to_numpy()
-                ax.step(values, np.arange(1, len(values) + 1) / len(values), where="post", **kw)
-            elif panel.plot.type in {"bar", "forest"}:
-                ax.bar(frame[x], frame[y], hatch=["/", "\\", "x"][i % 3], label=kw["label"])
-            elif panel.plot.type == "histogram":
-                ax.hist(frame[y], alpha=0.65, label=kw["label"], hatch=["/", "\\", "x"][i % 3])
-            elif panel.plot.type in {"box", "violin"}:
-                values = [f[y].to_numpy() for _, f in frame.groupby(x, sort=False)]
-                (ax.boxplot if panel.plot.type == "box" else ax.violinplot)(values)
-            elif panel.plot.type in {"heatmap", "confusion_matrix"}:
-                matrix = frame.pivot_table(index=y, columns=x, aggfunc="size", fill_value=0)
-                ax.imshow(matrix, aspect="auto")
-            else:
-                ax.scatter(frame[x], frame[y], s=18, **kw)
-        if len(groups) > 1:
-            ax.legend(frameon=False, fontsize=6)
-        ax.set_xlabel(panel.axes["x_label"])
-        ax.set_ylabel(panel.axes["y_label"])
-        ax.text(
-            -0.13,
-            1.04,
-            panel.id.upper() if uppercase else panel.id.lower(),
-            transform=ax.transAxes,
-            fontweight="bold",
-            fontsize=8,
-        )
-    fig.subplots_adjust(left=0.13, right=0.98, bottom=0.20, top=0.90, wspace=0.35)
-    for fmt in contract.export.formats:
-        fig.savefig(out / f"{contract.figure_id}.{fmt}", format=fmt, dpi=contract.export.dpi)
+    ):
+        for ax, panel in zip(axes.ravel(), contract.panels):
+            data = _data(contract, base, panel.plot.source)
+            x, y = panel.plot.x, panel.plot.y
+            if not x or not y or x not in data or y not in data:
+                raise RfigError("panel variable missing")
+            if data[[x, y]].isna().any().any():
+                raise RfigError("missing values require an explicit declared transformation")
+            groups = (
+                [(None, data)]
+                if not panel.plot.group
+                else list(data.groupby(panel.plot.group, sort=False))
+            )
+            for i, (name, frame) in enumerate(groups):
+                kw = {
+                    "label": str(name) if name is not None else None,
+                    "marker": ["o", "s", "^"][i % 3],
+                }
+                if panel.plot.type in {"line", "roc", "pr", "calibration"}:
+                    ax.plot(frame[x], frame[y], lw=1, ms=3, **kw)
+                elif panel.plot.type == "ecdf":
+                    values = frame[y].sort_values().to_numpy()
+                    ax.step(values, np.arange(1, len(values) + 1) / len(values), where="post", **kw)
+                elif panel.plot.type in {"bar", "forest"}:
+                    ax.bar(frame[x], frame[y], hatch=["/", "\\", "x"][i % 3], label=kw["label"])
+                elif panel.plot.type == "histogram":
+                    ax.hist(frame[y], alpha=0.65, label=kw["label"], hatch=["/", "\\", "x"][i % 3])
+                elif panel.plot.type in {"box", "violin"}:
+                    values = [f[y].to_numpy() for _, f in frame.groupby(x, sort=False)]
+                    (ax.boxplot if panel.plot.type == "box" else ax.violinplot)(values)
+                elif panel.plot.type in {"heatmap", "confusion_matrix"}:
+                    matrix = frame.pivot_table(index=y, columns=x, aggfunc="size", fill_value=0)
+                    ax.imshow(matrix, aspect="auto")
+                else:
+                    ax.scatter(frame[x], frame[y], s=18, **kw)
+            if len(groups) > 1:
+                ax.legend(frameon=False, fontsize=6)
+            ax.set_xlabel(panel.axes["x_label"])
+            ax.set_ylabel(panel.axes["y_label"])
+            ax.text(
+                -0.13,
+                1.04,
+                panel.id.upper() if uppercase else panel.id.lower(),
+                transform=ax.transAxes,
+                fontweight="bold",
+                fontsize=8,
+            )
+        fig.subplots_adjust(left=0.13, right=0.98, bottom=0.20, top=0.90, wspace=0.35)
+        for fmt in contract.export.formats:
+            fig.savefig(out / f"{contract.figure_id}.{fmt}", format=fmt, dpi=contract.export.dpi)
     plt.close(fig)
     shutil.copy2(contract_path, out / "figure.contract.yaml")
     lineage = {
@@ -458,7 +459,7 @@ def render(contract_path: Path, root: Path) -> Path:
         {
             "contract_sha256": digest(contract_path),
             "sources": lineage["nodes"],
-            "renderer_version": "2.0.0",
+            "renderer_version": __version__,
             "python": platform.python_version(),
             "generated_at": datetime.now(UTC).isoformat(),
             "profile_id": profile["profile_id"],

@@ -1,13 +1,43 @@
 name: ci
+
 on: [push, pull_request]
+
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
-      - run: uv sync
-      - run: uv run ruff check src tests/v2
+      - run: uv sync --all-groups
+      - run: uv run ruff check .
       - run: uv run pytest -q
-      - run: uv run rfig render examples/v2/figure.contract.yaml
-      - run: uv run rfig preflight examples/v2/outputs/Fig1/Fig1.pdf --contract examples/v2/figure.contract.yaml
+      - run: uv run python scripts/check_case_collisions.py
+      - run: uv run python scripts/check_versions.py
+      - run: uv run python scripts/sync_skills.py --check
+
+  wheel-smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install ${{ matrix.python }}
+      - run: uv build --no-sources
+      - run: uv run --python ${{ matrix.python }} python scripts/test_wheel.py
+
+  npm-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with: {node-version: 20}
+      - run: uv sync --all-groups
+      - run: uv build --no-sources
+      - run: uv run python scripts/build_native.py --platform linux-x64
+      - run: uv run python scripts/package_npm.py
+      - run: npm test --workspace @yhyb24p/research-figure

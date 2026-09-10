@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 
+from ._version import __version__
 from .resources import iter_bundled_skills
 
 
@@ -34,7 +35,7 @@ def install(agent: str, global_: bool, project: Path | None, force: bool = False
     manifest = {
         "schema_version": "1",
         "product": "research-figure-skills",
-        "product_version": "2.1.0rc1",
+        "product_version": __version__,
         "agent": agent,
         "scope": "global" if global_ else "project",
         "skills": skills,
@@ -51,3 +52,28 @@ def status(agent: str, global_: bool, project: Path | None) -> dict:
         "installed": path.exists(),
         "manifest": json.loads(path.read_text()) if path.exists() else None,
     }
+
+
+def uninstall(agent: str, global_: bool, project: Path | None) -> dict:
+    """Remove only Skills recorded by this product's installation manifest."""
+    dest = target(agent, global_, project)
+    manifest_path = dest / "research-figure-install.json"
+    if not manifest_path.is_file():
+        return {"removed": [], "status": "NOT_INSTALLED"}
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    removed = []
+    for name, entry in manifest.get("skills", {}).items():
+        skill = dest / name / "SKILL.md"
+        expected = entry.get("sha256")
+        actual = hashlib.sha256(skill.read_bytes()).hexdigest() if skill.is_file() else None
+        if actual and actual != expected:
+            raise ValueError("RF-INSTALL-002 local skill modified: " + name)
+        if skill.is_file():
+            skill.unlink()
+        try:
+            (dest / name).rmdir()
+        except OSError:
+            pass
+        removed.append(name)
+    manifest_path.unlink()
+    return {"removed": removed, "status": "PASS"}

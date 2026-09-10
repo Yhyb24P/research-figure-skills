@@ -1,15 +1,36 @@
 name: release-dry-run
-on: {workflow_dispatch: {}, push: {tags: ['v*']}}
-permissions: {contents: read}
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
 jobs:
-  build:
+  release-dry-run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with: {node-version: 20}
       - run: uv sync --all-groups
+      - run: uv run ruff check .
       - run: uv run pytest -q
-      - run: uv build
-      - run: sha256sum dist/* > dist/checksums-sha256.txt
+      - run: uv run python scripts/check_versions.py
+      - run: uv run python scripts/check_case_collisions.py
+      - run: uv run python scripts/sync_skills.py --check
+      - run: uv build --no-sources
+      - run: uv run python scripts/test_wheel.py
+      - run: uv run python scripts/build_native.py --platform linux-x64
+      - run: uv run python scripts/package_npm.py
+      - run: npm pack --workspace @yhyb24p/research-figure --dry-run
+      - run: uv run python scripts/release_dry_run.py
       - uses: actions/upload-artifact@v4
         with: {name: release-artifacts, path: dist/}
+      - uses: actions/attest-build-provenance@v2
+        with: {subject-path: 'dist/**'}

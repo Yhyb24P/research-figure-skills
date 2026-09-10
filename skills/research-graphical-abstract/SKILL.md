@@ -1,5 +1,5 @@
 ---
 name: research-graphical-abstract
-description: Route graphical abstracts through journal-aware AI and asset-license policies.
+description: Route graphical abstracts through policy and asset-license checks.
 ---
-Resolve target policy first. General-purpose generative image use is blocked when profile policy requires dedicated licensed assets or approval.
+Resolve target policy before rendering.

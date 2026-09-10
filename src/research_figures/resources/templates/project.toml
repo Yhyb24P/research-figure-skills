@@ -1,0 +1,15 @@
+schema_version = "1"
+
+[project]
+name = "my-research-project"
+
+[journal]
+profile = "generic.high_impact.v2026-09-11"
+phase = "draft"
+
+[render]
+output_root = "figures"
+
+[privacy]
+network = "off"
+telemetry = false

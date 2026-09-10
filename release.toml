@@ -1,0 +1,9 @@
+[release]
+python_version = "2.1.0rc1"
+npm_version = "2.1.0-rc.1"
+git_tag = "v2.1.0-rc.1"
+npm_package = "@yhyb24p/research-figure"
+
+[platforms]
+supported = ["linux-x64"]
+conditional = ["linux-arm64", "darwin-x64", "darwin-arm64", "win32-x64", "win32-arm64"]

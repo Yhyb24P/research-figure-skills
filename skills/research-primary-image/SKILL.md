@@ -1,5 +1,5 @@
 ---
 name: research-primary-image
-description: Inspect and manifest primary research images without generative retouching.
+description: Inspect and manifest primary images without generative retouching.
 ---
-Preserve original hashes and logged allowed operations only. Healing, cloning, content-aware fill and AI edits are BLOCKED.
+Preserve original hashes; healing, cloning and AI edits are blocked.
