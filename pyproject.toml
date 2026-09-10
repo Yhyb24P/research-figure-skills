@@ -7,6 +7,7 @@ version = "2.1.0rc1"
 requires-python = ">=3.11"
 description = "Evidence-constrained, journal-aware scientific figure compiler and auditor"
 readme = "README.md"
+license = "Apache-2.0"
 keywords = ["scientific figures", "reproducibility", "preflight", "journal policy"]
 classifiers = ["Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Topic :: Scientific/Engineering"]
 dependencies = ["matplotlib", "numpy", "pandas", "PyYAML", "pydantic>=2", "jsonschema", "Pillow", "PyMuPDF", "lxml", "networkx", "typer", "rich", "platformdirs"]

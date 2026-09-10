@@ -4,8 +4,8 @@
 
 `IMPLEMENTATION_COMPLETE` for the repository changes and the tested Linux x64 distribution path.
 This is **not** `RELEASE_CANDIDATE` or `PUBLIC_RELEASE_READY`: macOS/Windows CI has not yet run,
-and the owner has not selected a license or configured PyPI/npm registry ownership and Trusted
-Publishing. Those are explicit release blockers, not inferred completions.
+and GitHub Actions Trusted Publishing must be enabled at PyPI and npm. Those are explicit release
+blockers, not inferred completions.
 
 ## Product changes
 
@@ -63,7 +63,7 @@ uv run python scripts/release_dry_run.py
 | P11 scientific regression | Existing V2 integrity/no-fabrication regression suite remains green (12 tests total). | PASS |
 | P12 release build | wheel/sdist, Linux native launcher, npm tarballs, checksums, SBOM inventory and manifest generated locally. | PASS (Linux x64) |
 | P13 supply chain | Checksums/SBOM/release manifest are generated; release workflow requests OIDC and attestation permissions. It has not run remotely. | PENDING_REMOTE_CI |
-| P14 public metadata | README, changelog, security, contributing and citation metadata exist. LICENSE choice and registry owner setup are not authorized/invented. | OWNER_ACTION_REQUIRED |
+| P14 public metadata | README, changelog, security, contributing, citation metadata and Apache-2.0 LICENSE exist. PyPI/npm OIDC ownership setup remains external. | PENDING_OWNER_CONFIGURATION |
 | P15 release dry-run | Local built artifacts passed `scripts/release_dry_run.py`; remote tag workflow remains unrun. | PASS (local) |
 
 ## Linux launcher evidence
@@ -76,10 +76,9 @@ only CPython runtime and third-party dependencies on first execution.
 
 ## Owner actions required before public release
 
-1. Select a software license (Codex must not invent one).
-2. Confirm the PyPI distribution and `@yhyb24p` npm scope/package ownership.
-3. Configure PyPI/npm Trusted Publishing and protected release environments.
-4. Push the commits/tag and obtain successful GitHub Actions wheel smoke on Windows and macOS,
+1. Confirm the PyPI distribution and `@yhyb24p` npm scope/package ownership.
+2. Configure PyPI/npm Trusted Publishing and protected release environments.
+3. Obtain successful GitHub Actions wheel smoke on Windows and macOS,
    then build/test only platforms with credible native launcher evidence.
 
 ## Scientific and policy limitations

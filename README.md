@@ -4,6 +4,8 @@ Evidence-constrained, journal-aware scientific figure compiler and technical aud
 It renders locally, does not upload research data by default, has no telemetry by default, and
 does not claim publisher endorsement or editorial acceptance.
 
+Licensed under [Apache-2.0](LICENSE).
+
 ## Install
 
 The consumer front door is npm (Linux x64 is the currently tested native platform):
@@ -22,6 +24,12 @@ rfig doctor
 
 The package name and registry publishing setup are pending owner confirmation. Until publication,
 build local tarballs/wheels with the documented release checks.
+
+## Support
+
+The RC1 Python wheel is tested by CI on Linux, Windows, and macOS. RC1 native launcher and npm
+package support is intentionally limited to Linux x64; no other native/npm platform package is
+published or claimed. The npm RC channel is `next` under `@yhyb24p`.
 
 ## 30-second start
 
