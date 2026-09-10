@@ -37,7 +37,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - uses: actions/setup-node@v4
         with: {node-version: 20}
-      - run: cargo install pyapp --version 0.29.0 --locked
+      - run: PYAPP_PROJECT_NAME=yh-rfig cargo install pyapp --version 0.29.0 --locked
       - run: uv sync --all-groups
       - run: uv build --no-sources
       - run: uv run python scripts/build_native.py --platform linux-x64
