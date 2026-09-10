@@ -1,11 +1,11 @@
 {
   "build_platform": "linux-x86_64",
   "entry_point": "research_figures.cli:main",
-  "git_commit": "7e5c4ff55b97bfca4dcfdf49be645dad083771bc",
+  "git_commit": "64d891b47fd936f29369328341549d27d5cfd368",
   "project_source": "embedded local wheel via PYAPP_PROJECT_PATH",
   "pyapp_version": "0.29.0",
   "python_distribution": "CPython 3.12 (PyApp managed)",
   "release_version": "2.1.0rc1",
   "wheel_filename": "research_figure_skills-2.1.0rc1-py3-none-any.whl",
-  "wheel_sha256": "e530f68d5315037ff097a5fa9556d1ed6e1d390bac6538522601b7c5da5392ec"
+  "wheel_sha256": "c0602ce372d8bf72cb5ac95052428a0ed000619384363172d2d678438faa2ad8"
 }
