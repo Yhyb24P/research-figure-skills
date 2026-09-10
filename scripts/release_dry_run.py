@@ -24,6 +24,7 @@ def main() -> None:
         path
         for path in DIST.rglob("*")
         if path.is_file()
+        and not path.name.startswith(".")
         and path.name
         not in {"checksums.json", "checksums-sha256.txt", "sbom.spdx.json", "release-manifest.json"}
     )
