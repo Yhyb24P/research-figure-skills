@@ -5,11 +5,17 @@ from __future__ import annotations
 
 import json
 import shutil
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NATIVE = ROOT / "dist" / "native" / "linux-x64"
 PLATFORM = ROOT / "packages" / "npm" / "platforms" / "linux-x64"
+NPM_DIST = ROOT / "dist" / "npm"
+PACKAGES = (
+    "@yhyb24p/research-figure-linux-x64",
+    "@yhyb24p/research-figure",
+)
 
 
 def main() -> None:
@@ -27,7 +33,35 @@ def main() -> None:
     shutil.copy2(launcher, destination)
     destination.chmod(0o755)
     shutil.copy2(manifest_file, PLATFORM / "launcher-manifest.json")
-    print(destination)
+
+    NPM_DIST.mkdir(parents=True, exist_ok=True)
+    for stale_tarball in NPM_DIST.glob("*.tgz"):
+        stale_tarball.unlink()
+    summaries = []
+    for package in PACKAGES:
+        result = subprocess.run(
+            [
+                "npm",
+                "pack",
+                "--workspace",
+                package,
+                "--pack-destination",
+                str(NPM_DIST),
+                "--json",
+            ],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        summary = json.loads(result.stdout)
+        if not isinstance(summary, list) or len(summary) != 1:
+            raise SystemExit(f"unexpected npm pack --json output for {package}: {result.stdout}")
+        summaries.append(summary[0])
+    (NPM_DIST / "npm-pack-summary.json").write_text(
+        json.dumps(summaries, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(json.dumps(summaries, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
