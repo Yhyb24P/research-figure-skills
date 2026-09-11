@@ -3,8 +3,8 @@
 ## Status
 
 `IMPLEMENTATION_COMPLETE` for the repository changes and the tested Linux x64 distribution path.
-This is **not** `RELEASE_CANDIDATE` or `PUBLIC_RELEASE_READY`: macOS/Windows CI has not yet run,
-and GitHub Actions Trusted Publishing must be enabled at PyPI and npm. Those are explicit release
+This is **not** `RELEASE_CANDIDATE` or `PUBLIC_RELEASE_READY`: PyPI/npm Trusted Publishing ownership
+and registry-side configuration have not been independently confirmed. Those are explicit release
 blockers, not inferred completions.
 
 ## Product changes
@@ -51,7 +51,7 @@ uv run python scripts/release_dry_run.py
 |---|---|---|
 | P0 source-tree independence | Built wheel clean-installed outside checkout; `policy list`, doctor JSON, self-test passed. | PASS |
 | P1 resource completeness | Wheel inspection includes profiles, schemas, references, Skills, templates and self-test fixtures. | PASS |
-| P2 cross-platform path safety | Case-collision check passes; Linux smoke passes. Windows/macOS wheel CI is configured but has not run. | PENDING_REMOTE_CI |
+| P2 cross-platform path safety | [CI run 34549372343](https://github.com/Yhyb24P/research-figure-skills/actions/runs/34549372343) passed case-collision checks and wheel clean-install smoke on Linux, Windows and macOS for Python 3.11/3.12. | PASS |
 | P3 npm wrapper | Packed wrapper + Linux x64 platform tarball clean-install forwards to native launcher. | PASS (Linux x64) |
 | P4 no-Python consumer | Source-tree-external PyApp launch with `PYTHONPATH`/`VIRTUAL_ENV` unset bootstrapped managed CPython 3.12 and ran all smoke commands. | PASS (Linux x64) |
 | P5 Python-native path | `uv tool install` of the built wheel followed by self-test passed. | PASS |
@@ -62,9 +62,9 @@ uv run python scripts/release_dry_run.py
 | P10 machine contract | JSON envelopes parse in smoke tests; documented stable exit-code mapping is implemented. | PASS |
 | P11 scientific regression | Existing V2 integrity/no-fabrication regression suite remains green (12 tests total). | PASS |
 | P12 release build | wheel/sdist, Linux native launcher, npm tarballs, checksums, SBOM inventory and manifest generated locally. | PASS (Linux x64) |
-| P13 supply chain | Checksums/SBOM/release manifest are generated; release workflow requests OIDC and attestation permissions. It has not run remotely. | PENDING_REMOTE_CI |
+| P13 supply chain | [Release dry-run 34549653211](https://github.com/Yhyb24P/research-figure-skills/actions/runs/34549653211) generated wheel/sdist/native/npm artifacts, uploaded them, and completed `attest-build-provenance`. REST attestation lookup found one attestation for each downloaded npm tgz SHA-256. | PASS (remote, publish=false) |
 | P14 public metadata | README, changelog, security, contributing, citation metadata and Apache-2.0 LICENSE exist. PyPI/npm OIDC ownership setup remains external. | PENDING_OWNER_CONFIGURATION |
-| P15 release dry-run | Local built artifacts passed `scripts/release_dry_run.py`; remote tag workflow remains unrun. | PASS (local) |
+| P15 release dry-run | [Release dry-run 34549653211](https://github.com/Yhyb24P/research-figure-skills/actions/runs/34549653211) passed remotely with `publish=false`, including generated npm tgz validation, external npm installation, launcher smoke, artifact upload and provenance attestation. | PASS (remote, publish=false) |
 
 ## Linux launcher evidence
 
@@ -78,8 +78,29 @@ only CPython runtime and third-party dependencies on first execution.
 
 1. Confirm the PyPI distribution and `@yhyb24p` npm scope/package ownership.
 2. Configure PyPI/npm Trusted Publishing and protected release environments.
-3. Obtain successful GitHub Actions wheel smoke on Windows and macOS,
-   then build/test only platforms with credible native launcher evidence.
+
+## P13 npm artifact evidence
+
+The remote dry-run generated both package archives in `dist/npm/`, rather than relying on
+`npm pack --dry-run` or any local cache. `scripts/package_npm.py` packs the Linux platform
+workspace first and the wrapper workspace second with `--pack-destination dist/npm --json`.
+`scripts/release_dry_run.py` requires the directory and both non-empty files, reads each embedded
+`package/package.json` to verify name/version, and performs a source-tree-external
+`npm install <platform.tgz> <wrapper.tgz>` followed by `rfig --version`, `doctor --json`, and
+`self-test` with `PYTHONPATH` and `VIRTUAL_ENV` absent.
+
+Remote artifact SHA-256 values from run 34549653211:
+
+- `yhyb24p-research-figure-linux-x64-2.1.0-rc.1.tgz` —
+  `1714d34726323911dd55012205cdb4b2e690a7630649d4d590d0a26e5fac5e65`
+- `yhyb24p-research-figure-2.1.0-rc.1.tgz` —
+  `599b69a145446915f1555d2f2f823571bc739bfe1440260e90f35969e83b6e20`
+
+Both digests returned one GitHub repository attestation through the REST attestations endpoint.
+The pack summaries identify `@yhyb24p/research-figure-linux-x64@2.1.0-rc.1` and
+`@yhyb24p/research-figure@2.1.0-rc.1`; each has four intended package files. Version validation
+maps the distinct release spellings explicitly: Python `2.1.0rc1` → npm `2.1.0-rc.1` → Git tag
+`v2.1.0-rc.1`, rather than requiring the Python and npm strings to be identical.
 
 ## Scientific and policy limitations
 
