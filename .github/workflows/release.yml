@@ -24,7 +24,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - uses: actions/setup-node@v4
         with: {node-version: 20}
-      - run: PYAPP_PROJECT_NAME=yh-rfig cargo install pyapp --version 0.29.0 --locked
+      - run: PYAPP_PROJECT_NAME=yh-rfig PYAPP_PROJECT_VERSION=2.1.0rc1 cargo install pyapp --version 0.29.0 --locked
       - run: uv sync --all-groups
       - run: uv run ruff check .
       - run: uv run pytest -q
